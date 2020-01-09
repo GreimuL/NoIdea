@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8d080a126df134bad68399554478ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
   cam: {fileID: 0}
   isStart: 0
 --- !u!50 &6462076391778847219

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
+    public static bool isOpen = false;
+
     public GameObject needle;
     public GameObject narrowNeedle;
     public GameObject player;
@@ -31,6 +33,7 @@ public class StageManager : MonoBehaviour
     {
         poolingmanager = GetComponent<PoolingManager>();
         retrybtn.SetActive(false);
+        guideline.SetActive(false);
         isDead = false;
         score = 0;
         Random.InitState((int)System.DateTime.Now.Ticks);
@@ -40,7 +43,9 @@ public class StageManager : MonoBehaviour
         camHeight = cam.orthographicSize*2f;
         camWidth = aspect * camHeight;
         player.transform.position = new Vector2(0, -camHeight / 2 + player.GetComponent<Renderer>().bounds.size.y/2);
-        StartCoroutine("GuideLine");
+
+        if (isOpen == true)
+            startGame();
     }
     
     void Update()
@@ -54,6 +59,17 @@ public class StageManager : MonoBehaviour
         {
             retrybtn.SetActive(true);
         }
+    }
+
+    public void startGame()
+    {
+        guideline.SetActive(true);
+        StartCoroutine("GuideLine");
+    }
+
+    public int getScore()
+    {
+        return score;
     }
     
     IEnumerator GuideLine()

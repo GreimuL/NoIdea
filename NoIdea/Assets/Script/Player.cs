@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     private Vector2 currentPosition;
     public StageManager stageManager;
+    public DataManager dataManager;
+    public GameObject manager;
     public Camera cam;
     private float jumpStr = 1f;
     private float initSpeed = 10f;
@@ -41,10 +43,36 @@ public class Player : MonoBehaviour
             {
                 gameObject.transform.Translate(new Vector2(-5f * Time.deltaTime, 0));
             }
-            if (gameObject.transform.position.x > camWidth / 2+gameObject.GetComponent<Renderer>().bounds.size.x/2 || gameObject.transform.position.x < -camWidth / 2)
+            if (gameObject.transform.position.x > camWidth / 2-gameObject.GetComponent<Renderer>().bounds.size.x/2 || 
+                gameObject.transform.position.x < -camWidth / 2 + gameObject.GetComponent<Renderer>().bounds.size.x / 2)
             {
                 isDir = !isDir;
             }
+
+            //////////////////////////////////////////////
+            if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (isDir)
+                    {
+                        isDir = false;
+                    }
+                    else
+                    {
+                        isDir = true;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.Space)&&isJump==false)
+                {
+                    isClick++;
+                    isJump = true;
+                    initSpeed = 13f;
+                }
+            }
+            //////////////////////////////////////////////
+
+
             for(int i = 0; i < Input.touchCount; i++)
             {
                 if (Input.GetTouch(i).phase == TouchPhase.Began&&Input.GetTouch(i).position.x<Screen.width/2)
@@ -115,6 +143,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        dataManager.setHiscore();
         stageManager.isDead = true;
         gameObject.SetActive(false);
     }
