@@ -1284,6 +1284,8 @@ MonoBehaviour:
   music: {fileID: 0}
   isDead: 0
   cam: {fileID: 1362103013}
+  level: 0
+  spdlevel: 3
 --- !u!4 &1607406479
 Transform:
   m_ObjectHideFlags: 0
@@ -1310,7 +1312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768dcd410e19c3243904191d6e82fbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  init_pool_size: 10
+  init_pool_size: 30
   pool_size: 
   type_size: 2
   needle_instant: {fileID: 3351236055263394799, guid: dcc1fd5a4b709294a956bebc0603c831,

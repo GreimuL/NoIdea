@@ -17,10 +17,16 @@ public class Needle : NeedleProperty
     public void Awake()
     {
     }
-    public void randomizeState()
+    public void randomizeState(float le, float ri)
     {
         Random.InitState((int)System.DateTime.Now.Ticks);
-        speed = Random.Range(3f, 5f);
+        speed = Random.Range(le, ri);
+        movement = setMovement(moveDir, moveType);
+    }
+    
+    public void setState(float spd)
+    {
+        speed = spd;
         movement = setMovement(moveDir, moveType);
     }
 
