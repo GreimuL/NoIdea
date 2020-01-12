@@ -33,7 +33,7 @@ public class StageManager : MonoBehaviour
     private int phase = 0;
     public int level;
     public float spdlevel = 3f;
-    KeyValuePair<float, float> minLevel = new KeyValuePair<float, float>(250f,350f);
+    KeyValuePair<float, float> minLevel = new KeyValuePair<float, float>(200f,250f);
     void Start()
     {
         level = 0;
@@ -58,8 +58,11 @@ public class StageManager : MonoBehaviour
     
     void Update()
     {
-        level =score/30;
-        spdlevel = score / 1000;
+        if (level < 150)
+            level = score / 20;
+        else
+            level = 150;
+        //spdlevel = score / 1000;
         if (isStart&&isDead==false)
         {
             score++;
@@ -130,7 +133,7 @@ public class StageManager : MonoBehaviour
             activeNeedle.transform.position = new Vector2(-camWidth / 2, -camHeight / 2 + needle.GetComponent<Renderer>().bounds.size.y / 2);
             needleSetting = activeNeedle.GetComponent<Needle>();
             needleSetting.setVarialbe(1, 0);
-            needleSetting.randomizeState(3f,5f+spdlevel);
+            needleSetting.randomizeState(3f,6f);
             activeNeedle.SetActive(true);
         }
     }
@@ -143,7 +146,7 @@ public class StageManager : MonoBehaviour
             activeNeedle.transform.position = new Vector2(camWidth / 2, -camHeight / 2 + needle.GetComponent<Renderer>().bounds.size.y / 2);
             needleSetting = activeNeedle.GetComponent<Needle>();
             needleSetting.setVarialbe(-1, 0);
-            needleSetting.randomizeState(3f,5f+spdlevel);
+            needleSetting.randomizeState(3f,6f);
             activeNeedle.SetActive(true);
         }
     }
@@ -151,7 +154,7 @@ public class StageManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(minLevel.Key - level * 2, minLevel.Value - level) * Time.deltaTime);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(minLevel.Key - level, minLevel.Value - level) * Time.deltaTime);
             GameObject activeNeedle = poolingmanager.getNeedle(1);
             activeNeedle.transform.position = new Vector2(UnityEngine.Random.Range(-camWidth / 2, camWidth / 2), camHeight / 2 - narrowNeedle.GetComponent<Renderer>().bounds.size.y / 2);
             activeNeedle.SetActive(true);
