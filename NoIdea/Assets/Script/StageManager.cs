@@ -33,7 +33,7 @@ public class StageManager : MonoBehaviour
     private int phase = 0;
     public int level;
     public float spdlevel = 3f;
-    KeyValuePair<float, float> minLevel = new KeyValuePair<float, float>(200f,250f);
+    KeyValuePair<float, float> minLevel = new KeyValuePair<float, float>(200f,280f);
     void Start()
     {
         level = 0;
@@ -59,7 +59,7 @@ public class StageManager : MonoBehaviour
     void Update()
     {
         if (level < 150)
-            level = score / 20;
+            level = score / 30;
         else
             level = 150;
         //spdlevel = score / 1000;
