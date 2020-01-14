@@ -50,9 +50,10 @@ public class Player : MonoBehaviour
             }
 
             //////////////////////////////////////////////
-            if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
+            if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor||
+                Application.platform==RuntimePlatform.OSXPlayer|| Application.platform == RuntimePlatform.OSXEditor)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0)||Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     if (isDir)
                     {

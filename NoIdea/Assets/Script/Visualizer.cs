@@ -20,8 +20,8 @@ public class Visualizer : MonoBehaviour
     static float[] audioBuffer;
 
     float amp;
-    public float ampBuffer;
-    float ampHighest;
+    public static float ampBuffer;
+    static float ampHighest;
 
     public Transform visualParent;
     public GameObject visualBlock;
@@ -78,7 +78,7 @@ public class Visualizer : MonoBehaviour
         bandBuffer();
         makeAudioBand();
         getAmp();
-        ampLight.intensity = ampBuffer * 0.5f;
+        ampLight.intensity = ampBuffer * 0.8f;
         for (int i = 0; i < 64; i++)
         {
             visualBlockArr[i].transform.localScale = new Vector2(10, audioBuffer[i] * scale + 1f);
@@ -87,6 +87,7 @@ public class Visualizer : MonoBehaviour
 
     void presetHighest()
     {
+        ampHighest = 30f;
         for (int i = 0; i < 64; i++)
             samplesHighest[i] = 0.1f;
     }
@@ -149,11 +150,10 @@ public class Visualizer : MonoBehaviour
             currentAmp += audioBand[i];
             currentAmpBuffer += audioBuffer[i];
         }
-        ampHighest = Mathf.Max(ampHighest, currentAmp);
-        if (ampHighest != 0)
-        {
-            amp = currentAmp / ampHighest;
-            ampBuffer = currentAmpBuffer / ampHighest;
+        if (currentAmp > ampHighest) {
+            ampHighest = currentAmp;
         }
+        amp = Mathf.Clamp01(currentAmp / ampHighest);
+        ampBuffer = Mathf.Clamp01(currentAmpBuffer / ampHighest);
     }
 }

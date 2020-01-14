@@ -560,7 +560,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ampBuffer: 0
   visualParent: {fileID: 1281115807}
   visualBlock: {fileID: 1993293170524762641, guid: 56e0d9fd3c043f64fb07b54bc8b9e176,
     type: 3}
@@ -1032,7 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 3c04e79eef08c834ab38b7f5053294c7, type: 2}
-  m_Color: {r: 1, g: 0.8745098, b: 0.827451, a: 1}
+  m_Color: {r: 1, g: 0.8980392, b: 0.7058824, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1068,7 +1067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.7776026
+  m_AspectRatio: 1.7777778
 --- !u!1 &1603891233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7170288469579910750, guid: abcca5076d9b53c48b68646fcb75ee2f,
@@ -1380,7 +1379,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f7fdeab52722662448c4810fc3426e50, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fd52b8f0903be9a4ba3a76e94cfaaa2f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
