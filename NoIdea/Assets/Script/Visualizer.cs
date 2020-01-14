@@ -7,13 +7,17 @@ public class Visualizer : MonoBehaviour
     public AudioSource music;
     float[] samples;
 
-    float[] samples64;
-    float[] buffer;
-    float[] bufferDecrease;
-    float[] samplesHighest;
+    public AnimationCurve animationCurve;
 
-    float[] audioBand;
-    float[] audioBuffer;
+    float[] curve;
+
+    static float[] samples64;
+    static float[] buffer;
+    static float[] bufferDecrease;
+    static float[] samplesHighest;
+
+    static float[] audioBand;
+    static float[] audioBuffer;
 
     float amp;
     public float ampBuffer;
@@ -42,6 +46,15 @@ public class Visualizer : MonoBehaviour
         audioBand = new float[64];
         audioBuffer = new float[64];
 
+        curve = new float[512];
+
+        presetHighest();
+
+        for (int i = 0; i < 64; i++)
+        {
+            curve[i] = animationCurve.Evaluate(Mathf.RoundToInt(((float)i) / 64));
+        }
+
         float angle = 0f;
         for (int i = 0; i < 64; i++)
         {
@@ -65,37 +78,36 @@ public class Visualizer : MonoBehaviour
         bandBuffer();
         makeAudioBand();
         getAmp();
-        ampLight.intensity = ampBuffer*5f;
+        ampLight.intensity = ampBuffer * 0.5f;
         for (int i = 0; i < 64; i++)
         {
-            visualBlockArr[i].transform.localScale = new Vector3(10, audioBuffer[i] * scale + 1f, 10);
+            visualBlockArr[i].transform.localScale = new Vector2(10, audioBuffer[i] * scale + 1f);
         }
+    }
+
+    void presetHighest()
+    {
+        for (int i = 0; i < 64; i++)
+            samplesHighest[i] = 0.1f;
     }
 
     void frequencyBand()
     {
         int piv = 0;
-        int samplePiv = 1;
-        int power = 0;
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < 512; i++)
         {
             float average = 0;
-            if (i == 16 || i == 32 || i == 40 || i == 48 || i == 56)
+            float cur = animationCurve.Evaluate(Mathf.RoundToInt(((float)i) / 512));
+
+            average += samples[i] * (i + 1);
+
+            if (cur == curve[piv])
             {
-                samplePiv = 2 << power;
-                power++;
-                if (power == 3)
-                {
-                    samplePiv -= 2;
-                }
-            }
-            for (int j = 0; j < samplePiv; j++)
-            {
-                average += samples[piv] * (piv + 1);
+                if (i != 0)
+                    average /= i;
+                samples64[piv] = average * 10;
                 piv++;
             }
-            average /= piv;
-            samples64[i] = average * 80;
         }
     }
 
@@ -106,7 +118,7 @@ public class Visualizer : MonoBehaviour
             if (samples64[i] > buffer[i])
             {
                 buffer[i] = samples64[i];
-                bufferDecrease[i] = 0.005f;
+                bufferDecrease[i] = 0.0005f;
             }
             if (samples64[i] < buffer[i])
             {
@@ -118,14 +130,13 @@ public class Visualizer : MonoBehaviour
 
     void makeAudioBand()
     {
+
         for (int i = 0; i < 64; i++)
         {
-            samplesHighest[i] = Mathf.Max(samplesHighest[i], samples64[i]);
-            if (samplesHighest[i] != 0)
-            {
-                audioBand[i] = samples64[i] / samplesHighest[i];
-                audioBuffer[i] = buffer[i] / samplesHighest[i];
-            }
+            if (samples64[i] > samplesHighest[i])
+                samplesHighest[i] = samples64[i];
+            audioBand[i] = Mathf.Clamp01(samples64[i] / samplesHighest[i]);
+            audioBuffer[i] = Mathf.Clamp01(buffer[i] / samplesHighest[i]);
         }
     }
 
@@ -133,7 +144,7 @@ public class Visualizer : MonoBehaviour
     {
         float currentAmp = 0;
         float currentAmpBuffer = 0;
-        for(int i = 0; i < 64; i++)
+        for (int i = 0; i < 64; i++)
         {
             currentAmp += audioBand[i];
             currentAmpBuffer += audioBuffer[i];
