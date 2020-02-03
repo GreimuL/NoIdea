@@ -34,7 +34,7 @@ public class Needle : NeedleProperty
     {
         base.Update();
         currentPosition = gameObject.transform.position;
-        gameObject.transform.Translate(movement);
+        gameObject.transform.Translate(movement * Time.deltaTime);
     }
 
 
@@ -50,9 +50,9 @@ public class Needle : NeedleProperty
         switch (type)
         {
             case 0:
-                return new Vector2(dir * Time.deltaTime * speed, 0);
+                return new Vector2(dir * speed, 0);
             default:
-                return new Vector2(dir * Time.deltaTime * speed, 0);
+                return new Vector2(dir * speed, 0);
 
         }
     }

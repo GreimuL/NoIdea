@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 596667441}
   - component: {fileID: 596667443}
   - component: {fileID: 596667442}
+  - component: {fileID: 596667444}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -656,6 +657,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596667440}
   m_CullTransparentMesh: 0
+--- !u!114 &596667444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596667440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f55094c1b415f694c88e110e563b4918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 596667442}
 --- !u!1 &1140602181
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,10 +855,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 960, y: 540}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1031,7 +1045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 3c04e79eef08c834ab38b7f5053294c7, type: 2}
-  m_Color: {r: 1, g: 0.8980392, b: 0.7058824, a: 1}
+  m_Color: {r: 0.60784316, g: 0.8392157, b: 0.76862746, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1067,7 +1081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.7777778
+  m_AspectRatio: 1.7785715
 --- !u!1 &1603891233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7170288469579910750, guid: abcca5076d9b53c48b68646fcb75ee2f,
@@ -1379,7 +1393,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fd52b8f0903be9a4ba3a76e94cfaaa2f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: abfeb1a0287b00049b3a30716508544c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

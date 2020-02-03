@@ -9,6 +9,7 @@ public class SplashLoad : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
+        Screen.SetResolution(1280, 720, true);
         while (!SplashScreen.isFinished)
         {
             SplashScreen.Draw();

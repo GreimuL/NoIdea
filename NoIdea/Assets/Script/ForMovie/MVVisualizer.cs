@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Visualizer : MonoBehaviour
+public class MVVisualizer : MonoBehaviour
 {
     public AudioSource music;
     float[] samples;
@@ -30,21 +30,27 @@ public class Visualizer : MonoBehaviour
 
     public Light ampLight;
 
+    public GameObject player;
+
+    public float blockNum;
+
+    public Camera camera;
+
     // Use this for initialization
     void Start()
     {
-        scale = 100f;
+        scale = 50f;
         music = GameObject.Find("SampleMusic").GetComponent<AudioSource>();
         samples = new float[512];
-        visualBlockArr = new GameObject[64];
+        visualBlockArr = new GameObject[512];
 
-        samples64 = new float[64];
-        buffer = new float[64];
-        bufferDecrease = new float[64];
-        samplesHighest = new float[64];
+        samples64 = new float[512];
+        buffer = new float[512];
+        bufferDecrease = new float[512];
+        samplesHighest = new float[512];
 
-        audioBand = new float[64];
-        audioBuffer = new float[64];
+        audioBand = new float[512];
+        audioBuffer = new float[512];
 
         curve = new float[512];
 
@@ -56,7 +62,8 @@ public class Visualizer : MonoBehaviour
         }
 
         float angle = 0f;
-        for (int i = 0; i < 64; i++)
+        /*
+        for (int i = 0; i < blockNum; i++)
         {
             GameObject tempBlock = Instantiate(visualBlock);
 
@@ -65,7 +72,19 @@ public class Visualizer : MonoBehaviour
             tempRect.localRotation = Quaternion.Euler(0, 0, angle + 90);
             tempRect.SetParent(visualParent);
             tempRect.sizeDelta = new Vector2(1, 1);
-            angle += 360.0f / (float)64;
+            angle += 360.0f / (float)blockNum;
+            visualBlockArr[i] = tempBlock;
+        }
+        */
+
+        for(int i = 0; i < blockNum; i++)
+        {
+            GameObject tempBlock = Instantiate(visualBlock);
+
+            RectTransform tempRect = tempBlock.GetComponent<RectTransform>();
+            tempRect.localPosition = new Vector2(Screen.width/blockNum*i, 0);
+            tempRect.SetParent(visualParent);
+            tempRect.sizeDelta = new Vector2(1, 1);
             visualBlockArr[i] = tempBlock;
         }
     }
@@ -73,22 +92,37 @@ public class Visualizer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        music.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+        Band512();
+        ampLight.intensity = ampBuffer * 1.2f;
+        player.transform.localScale = new Vector2(ampBuffer + 1f,ampBuffer+1f);
+        for (int i = 0; i < blockNum; i++)
+        {
+            visualBlockArr[i].transform.localScale = new Vector2(3, audioBuffer[i] * scale + 1f);
+        }
+    }
+
+    void Band512()
+    {
+        music.GetSpectrumData(samples, 0, FFTWindow.BlackmanHarris);
+        frequency512();
+        bandBuffer();
+        makeAudioBand();
+        getAmp();
+    }
+
+    void Band64()
+    {
+        music.GetSpectrumData(samples, 0, FFTWindow.BlackmanHarris);
         frequencyBand();
         bandBuffer();
         makeAudioBand();
         getAmp();
-        ampLight.intensity = ampBuffer * 1.2f;
-        for (int i = 0; i < 64; i++)
-        {
-            visualBlockArr[i].transform.localScale = new Vector2(10, audioBuffer[i] * scale + 1f);
-        }
     }
 
     void presetHighest()
     {
         ampHighest = 30f;
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < blockNum; i++)
             samplesHighest[i] = 0.1f;
     }
 
@@ -116,9 +150,21 @@ public class Visualizer : MonoBehaviour
         }
     }
 
+    void frequency512()
+    {
+        int piv = 0;
+        for (int i = 0; i < 512; i++)
+        {
+            float average = 0;
+
+            average += samples[i] * (i + 1);
+
+            samples64[i] = average * 10;
+        }
+    }
     void bandBuffer()
     {
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < blockNum; i++)
         {
             if (samples64[i] > buffer[i])
             {
@@ -132,11 +178,12 @@ public class Visualizer : MonoBehaviour
             }
         }
     }
+    
 
     void makeAudioBand()
     {
 
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < blockNum; i++)
         {
             if (samples64[i] > samplesHighest[i])
                 samplesHighest[i] = samples64[i];
@@ -149,12 +196,13 @@ public class Visualizer : MonoBehaviour
     {
         float currentAmp = 0;
         float currentAmpBuffer = 0;
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < blockNum; i++)
         {
             currentAmp += audioBand[i];
             currentAmpBuffer += audioBuffer[i];
         }
-        if (currentAmp > ampHighest) {
+        if (currentAmp > ampHighest)
+        {
             ampHighest = currentAmp;
         }
         amp = Mathf.Clamp01(currentAmp / ampHighest);
