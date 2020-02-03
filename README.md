@@ -1,6 +1,6 @@
 # NoIdea
 Arcade Game made by Unity    
    
-# InGame   
-<img src="./img/gameplay.gif" width="100%" height="100%">   
+# Trailer   
+[![Trailer](https://img.youtube.com/vi/0eor-FkvbUI/0.jpg)](https://www.youtube.com/watch?v=0eor-FkvbUI)
 
