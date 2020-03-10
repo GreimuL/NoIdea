@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MVVisualizer : MonoBehaviour
 {
@@ -34,11 +35,19 @@ public class MVVisualizer : MonoBehaviour
 
     public float blockNum;
 
-    public Camera camera;
+    public Camera cam;
+
+    public Slider slider;
+
+    float camWidth;
+    float camHeight;
 
     // Use this for initialization
     void Start()
     {
+        slider.value = 0f;
+        camHeight = cam.orthographicSize * 2f;
+        camWidth = cam.aspect * camHeight;
         scale = 50f;
         music = GameObject.Find("SampleMusic").GetComponent<AudioSource>();
         samples = new float[512];
@@ -82,19 +91,25 @@ public class MVVisualizer : MonoBehaviour
             GameObject tempBlock = Instantiate(visualBlock);
 
             RectTransform tempRect = tempBlock.GetComponent<RectTransform>();
-            tempRect.localPosition = new Vector2(Screen.width/blockNum*i, 0);
+            tempRect.localPosition = new Vector2(camWidth/blockNum*i-camWidth/2+ camWidth / blockNum/2, -camHeight/8);
             tempRect.SetParent(visualParent);
-            tempRect.sizeDelta = new Vector2(1, 1);
+            tempRect.sizeDelta= new Vector2(1.3f, 3);
             visualBlockArr[i] = tempBlock;
         }
+    }
+
+    float musicPosition()
+    {
+        return Mathf.Clamp(music.time / music.clip.length, 0f, 1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Band512();
+        slider.value = musicPosition();
+        Band64();
         ampLight.intensity = ampBuffer * 1.2f;
-        player.transform.localScale = new Vector2(ampBuffer + 1f,ampBuffer+1f);
+        //player.transform.localScale = new Vector2(ampBuffer + 1f,ampBuffer+1f);
         for (int i = 0; i < blockNum; i++)
         {
             visualBlockArr[i].transform.localScale = new Vector2(3, audioBuffer[i] * scale + 1f);
