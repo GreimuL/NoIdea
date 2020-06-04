@@ -3,7 +3,7 @@ Arcade Game made by Unity
 
 PlayStore : https://play.google.com/store/apps/details?id=com.greimul.noidea   
     
-: https://greimul.tistory.com/27
+Review : https://greimul.tistory.com/27
    
 # Trailer   
 Youtube   
