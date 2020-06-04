@@ -1,7 +1,9 @@
 # NoIdea
 Arcade Game made by Unity    
 
-PlayStore : https://play.google.com/store/apps/details?id=com.greimul.noidea
+PlayStore : https://play.google.com/store/apps/details?id=com.greimul.noidea   
+    
+: https://greimul.tistory.com/27
    
 # Trailer   
 Youtube   
