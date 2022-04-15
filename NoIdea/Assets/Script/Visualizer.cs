@@ -67,6 +67,7 @@ public class Visualizer : MonoBehaviour
             tempRect.sizeDelta = new Vector2(1, 1);
             angle += 360.0f / (float)64;
             visualBlockArr[i] = tempBlock;
+            buffer[i] = 0;
         }
     }
 
